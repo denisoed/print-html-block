@@ -21,7 +21,7 @@ npm install print-html-block
 3. Import plugin in your `.js` file  
 
 ```js
-import PrintHtmlBlock from 'print-html-block';
+import printHtmlBlock from 'print-html-block';
 
 function print() {
   const selector = '#section1';
@@ -29,7 +29,7 @@ function print() {
     importStyle: true
   };
 
-  PrintHtmlBlock(selector, options);
+  printHtmlBlock(selector, options);
 };
 ```
 
@@ -38,7 +38,7 @@ function print() {
 ##  Default options
 
 | Name | Defailt | Description |
-|-|-|-|
+|-------------|-------------|-------------|
 | debug | false | show the iframe for debugging |
 | importCSS | true | import parent page css |
 | importStyle | false | import style tags |
