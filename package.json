@@ -1,0 +1,38 @@
+{
+  "name": "print-me",
+  "version": "0.0.1",
+  "description": "Print Me",
+  "main": "dist/print-me.js",
+  "module": "dist/print-me.mjs",
+  "browser": "dist/print-me.min.js",
+  "repository": "",
+  "homepage": "",
+  "bugs": "",
+  "author": "Denisoed",
+  "license": "MIT",
+  "keywords": [
+    "jquery",
+    "plugins",
+    "print"
+  ],
+  "scripts": {
+    "make": "rimraf dist && rollup -c",
+    "build": "npm run make",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "jquery": "^3.2.0"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.0",
+    "rollup": "^1.27.5",
+    "rollup-plugin-dts": ">=1.1.12 <1.2",
+    "rollup-plugin-terser": "^5.3.1",
+    "rollup-plugin-ts": "^0.2.0"
+  },
+  "engines": {
+    "node": ">=8.0.0",
+    "npm": ">=4.0.0"
+  },
+  "dependencies": {}
+}
