@@ -1,12 +1,12 @@
 {
-  "name": "print-me",
+  "name": "print-html-block",
   "version": "1.0.0",
-  "description": "Print Me",
-  "main": "dist/print-me.js",
-  "module": "dist/print-me.mjs",
-  "browser": "dist/print-me.min.js",
-  "repository": "https://github.com/denisoed/print-me",
-  "homepage": "https://github.com/denisoed/print-me",
+  "description": "Print Html Block",
+  "main": "dist/print-html-block.js",
+  "module": "dist/print-html-block.mjs",
+  "browser": "dist/print-html-block.min.js",
+  "repository": "https://github.com/denisoed/print-html-block",
+  "homepage": "https://github.com/denisoed/print-html-block",
   "bugs": "https://github.com/jasonday/printThis/issues",
   "author": "Denisoed",
   "license": "MIT",
@@ -23,7 +23,7 @@
   "scripts": {
     "make": "rimraf dist && rollup -c",
     "build": "npm run make",
-    "prepublishOnly": "npm run build"
+    "prepublish": "npm run build"
   },
   "peerDependencies": {
     "jquery": "^3.2.0"

@@ -1,4 +1,4 @@
-# Print Me
+# Print Html Block
 
 > ES5 Wrapper for jQuery plugin https://github.com/jasonday/printThis
 
