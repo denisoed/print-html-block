@@ -7,7 +7,7 @@
 1. Install plugin
 
 ```bash
-npm install print-me
+npm install print-html-block
 ```
 
 2. Create html tags
@@ -21,7 +21,7 @@ npm install print-me
 3. Import plugin in your `.js` file  
 
 ```js
-import PrintMe from 'print-me';
+import PrintHtmlBlock from 'print-html-block';
 
 function print() {
   const selector = '#section1';
@@ -29,7 +29,7 @@ function print() {
     importStyle: true
   };
 
-  PrintMe(selector, options);
+  PrintHtmlBlock(selector, options);
 };
 ```
 
