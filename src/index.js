@@ -4,7 +4,10 @@ import {
   importCssToHead,
   appendBody,
   appendContent,
-  loadCssToHead
+  loadCssToHead,
+  setDocType,
+  attachOnBeforePrintEvent,
+  removeInline
 } from './helpers';
 
 // defaults
@@ -78,27 +81,15 @@ export default function printHtmlBlock (selector, options) {
   }
 
   // $iframe.ready() and $iframe.load were inconsistent between browsers
-  setTimeout(function () {
+  setTimeout(() => {
     // Add doctype to fix the style difference between printing and render
-    function setDocType($iframe, doctype) {
-      var win, doc;
-      win = $iframe;
-      win = win.contentWindow || win.contentDocument || win;
-      doc = win.document || win.contentDocument || win;
-      doc.open();
-      doc.write(doctype);
-      doc.close();
-    }
+    if (allOptions.doctypeString) setDocType($iframe, allOptions.doctypeString);
 
-    if (allOptions.doctypeString) {
-      setDocType($iframe, allOptions.doctypeString);
-    }
-
-    var $doc = $iframe.contentDocument || $iframe.contentWindow.document,
-      $head = $doc.querySelector('head'),
-      $body = $doc.querySelector('body'),
-      $base = document.querySelector('base'),
-      baseURL;
+    const $doc = $iframe.contentDocument || $iframe.contentWindow.document;
+    const $head = $doc.querySelector('head');
+    const $body = $doc.querySelector('body');
+    const $base = document.querySelector('base');
+    let baseURL = '';
 
     // add base tag to ensure elements use the parent domain
     if (allOptions.base === true && $base) {
@@ -132,7 +123,7 @@ export default function printHtmlBlock (selector, options) {
     $doc.querySelector('html').setAttribute('style', pageHtml.style.cssText);
 
     // copy 'root' tag classes
-    var tag = allOptions.copyTagClasses;
+    let tag = allOptions.copyTagClasses;
     if (tag) {
       tag = tag === true ? 'bh' : tag;
       if (tag.indexOf('b') !== -1) {
@@ -151,10 +142,10 @@ export default function printHtmlBlock (selector, options) {
       var canvasId = 0;
       // .addBack('canvas') adds the top-level element if it is a canvas.
       $element
-        .find("canvas")
-        .addBack("canvas")
+        .find('canvas')
+        .addBack('canvas')
         .each(function () {
-          $(this).attr("data-printhtmlblock", canvasId++);
+          $(this).attr('data-printhtmlblock', canvasId++);
         });
     }
 
@@ -162,53 +153,24 @@ export default function printHtmlBlock (selector, options) {
 
     if (allOptions.canvas) {
       // Re-draw new canvases by referencing the originals
-      $body.find("canvas").each(function () {
-        var cid = $(this).data("printhtmlblock"),
-          $src = $('[data-printhtmlblock="' + cid + '"]');
+      $body.querySelectorAll('canvas').forEach(canvas => {
+        const cid = $(this).data('printhtmlblock');
+        const $src = $(`[data-printhtmlblock="${cid}"]`);
 
-        this.getContext("2d").drawImage($src[0], 0, 0);
+        canvas.getContext('2d').drawImage($src[0], 0, 0);
 
         // Remove the markup from the original
-        if ($.isFunction($.fn.removeAttr)) {
-          $src.removeAttr("data-printhtmlblock");
-        } else {
-          $.each($src, function (i, el) {
-            el.removeAttribute("data-printhtmlblock");
-          });
-        }
+        $src.removeAttribute('data-printhtmlblock');
       });
     }
 
     // remove inline styles
-    if (allOptions.removeInline) {
-      // Ensure there is a selector, even if it's been mistakenly removed
-      var selector = allOptions.removeInlineSelector || "*";
-      // $.removeAttr available jQuery 1.7+
-      if ($.isFunction($.removeAttr)) {
-        $body.find(selector).removeAttr("style");
-      } else {
-        $body.find(selector).attr("style", "");
-      }
-    }
+    if (allOptions.removeInline) removeInline($body, allOptions.removeInlineSelector);
 
     // print "footer"
     appendContent($body, allOptions.footer);
 
     // attach event handler function to beforePrint event
-    function attachOnBeforePrintEvent($iframe, beforePrintHandler) {
-      var win = $iframe;
-      win = win.contentWindow || win.contentDocument || win;
-
-      if (typeof beforePrintHandler === "function") {
-        if ("matchMedia" in win) {
-          win.matchMedia("print").addListener(function (mql) {
-            if (mql.matches) beforePrintHandler();
-          });
-        } else {
-          win.onbeforeprint = beforePrintHandler;
-        }
-      }
-    }
     attachOnBeforePrintEvent($iframe, allOptions.beforePrintEvent);
 
     setTimeout(function () {
@@ -238,9 +200,8 @@ export default function printHtmlBlock (selector, options) {
         }, 1000);
       }
 
-
       // after print callback
-      if (typeof allOptions.afterPrint === "function") {
+      if (typeof allOptions.afterPrint === 'function') {
         allOptions.afterPrint();
       }
     }, allOptions.printDelay);

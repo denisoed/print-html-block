@@ -82,3 +82,36 @@ export function loadCssToHead(head, cssLink) {
     head.appendChild(tagLink);
   }
 };
+
+export function setDocType(iframe, doctype) {
+  let win, doc;
+  win = iframe;
+  win = win.contentWindow || win.contentDocument || win;
+  doc = win.document || win.contentDocument || win;
+  doc.open();
+  doc.write(doctype);
+  doc.close();
+};
+
+export function attachOnBeforePrintEvent(iframe, beforePrintHandler) {
+  let win = iframe;
+  win = win.contentWindow || win.contentDocument || win;
+
+  if (typeof beforePrintHandler === 'function') {
+    if ('matchMedia' in win) {
+      win.matchMedia('print').addListener(mql => {
+        if (mql.matches) beforePrintHandler();
+      });
+    } else {
+      win.onbeforeprint = beforePrintHandler;
+    }
+  }
+};
+
+export function removeInline(body, removeInlineSelector) {
+  // Ensure there is a selector, even if it's been mistakenly removed
+  const selector = removeInlineSelector || '*';
+  body.querySelectorAll(selector).forEach(el => {
+    el.removeAttribute('style');
+  });
+};
