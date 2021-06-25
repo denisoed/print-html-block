@@ -1,3 +1,9 @@
+import {
+  importStyleToHead,
+  setTitleToHead,
+  importCssToHead
+} from './helpers';
+
 // defaults
 const defaults = {
   debug: false, // show the iframe for debugging
@@ -149,34 +155,13 @@ export default function printHtmlBlock(SELECTOR, OPTIONS) {
       $head.innerHTML = '<base href="' + baseURL + '">';
 
       // import page stylesheets
-      if (opt.importCSS)
-        document.querySelectorAll("link[rel=stylesheet]").forEach(function (link) {
-          var href = link.getAttribute("href");
-          if (href) {
-            var media = link.getAttribute("media") || "all";
-            var l = document.createElement('link');
-            l.type = 'text/css'
-            l.rel = 'stylesheet'
-            l.href = href
-            l.media = media
-            $head.appendChild(l);
-          }
-        });
+      if (opt.importCSS) importCssToHead($head);
 
       // import style tags
-      if (opt.importStyle)
-        document.querySelectorAll("style").forEach(function (style) {
-          var s = document.createElement('style')
-          s.innerHTML = style.innerText
-          $head.appendChild(s);
-        });
+      if (opt.importStyle) importStyleToHead($head)
 
       // add title of the page
-      if (opt.pageTitle) {
-        var title = document.createElement('title');
-        title.innerText = opt.pageTitle;
-        $head.appendChild(title);
-      }
+      if (opt.pageTitle) setTitleToHead($head, opt.pageTitle);
 
       // import additional stylesheet(s)
       if (opt.loadCSS) {
