@@ -1,6 +1,6 @@
 {
   "name": "print-html-block",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Print Html Block",
   "main": "dist/print-html-block.js",
   "module": "dist/print-html-block.mjs",
@@ -11,22 +11,19 @@
   "author": "Denisoed",
   "license": "MIT",
   "keywords": [
+    "web",
     "es5",
     "react",
     "vue",
     "angular",
     "vanilla",
-    "jquery",
     "plugins",
     "print"
   ],
   "scripts": {
-    "make": "rimraf dist && rollup -c",
-    "build": "npm run make",
+    "watch": "rollup -c -w",
+    "build": "rimraf dist && rollup -c",
     "prepublish": "npm run build"
-  },
-  "peerDependencies": {
-    "jquery": "^3.2.0"
   },
   "devDependencies": {
     "rimraf": "^3.0.0",
@@ -36,8 +33,8 @@
     "rollup-plugin-ts": "^0.2.0"
   },
   "engines": {
-    "node": ">=8.0.0",
-    "npm": ">=4.0.0"
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
   },
   "dependencies": {}
 }

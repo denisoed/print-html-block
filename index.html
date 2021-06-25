@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Print Html Block example</title>
+  <style>
+    body {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="page">
+    <h1>Lorem ipsum dolor sit amet.</h1>
+    <ul>
+      <li>1. Lorem ipsum dolor sit.</li>
+      <li>1. Lorem ipsum dolor sit.</li>
+      <li>1. Lorem ipsum dolor sit.</li>
+      <li>1. Lorem ipsum dolor sit.</li>
+      <li>1. Lorem ipsum dolor sit.</li>
+      <li>1. Lorem ipsum dolor sit.</li>
+    </ul>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo voluptas veniam nam? Itaque reiciendis nemo quisquam labore expedita illo perferendis.</p>
+  </div>
+  <button id="print">Print</button>
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+  <script src="./dist/print-html-block.js"></script>
+  <script>
+    window.onload = function () {
+      const btn = document.getElementById('print');
+      btn.addEventListener('click', () => {
+        const options = {
+          importStyle: true
+        };
+        printHtmlBlock('#page', options)
+      })
+    };
+  </script>
+</body>
+</html>

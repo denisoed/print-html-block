@@ -2,7 +2,7 @@ import { rollup } from 'rollup';
 import { terser } from 'rollup-plugin-terser';
 import pkg from './package.json';
 
-const name = 'printMe';
+const name = 'printHtmlBlock';
 const input = 'index.js';
 const external = ['jquery'];
 const globals = { jquery: 'jQuery' };
